@@ -79,7 +79,7 @@ def user_is_visitor(  # noqa: C901
     @functools.wraps(view_func)
     def inner(*args: Any, **kwargs: Any) -> HttpResponse:
         # should never happen, but keeps mypy happy as it _could_
-        if not view_func:
+        if view_func is None:
             raise ValueError("Callable (view_func) missing.")
 
         # HACK: if this is decorating a method, then the first arg will be

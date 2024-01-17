@@ -6,9 +6,7 @@ Welcome to the YunoJuno candidate test.
 
 First of all, thank you for applying and we appreciate you taking
 the time to do this test. It's not designed to be a long challenge
-so please don't spend more than three hours on it max. If you feel
-there are bits left unfinished - that's fine, discuss them in the
-pull request and we can talk through them later.
+so please don't spend more than three hours on it max.
 
 You'll have the best head start if you read this file in its entirety,
 but please do get in touch if you have outstanding queries that are
@@ -18,8 +16,8 @@ as much as it can given the constraints.
 ### 👋 Introduction
 
 This repo is a point-in-time clone of one of our open-source projects
-that is an active dependency of our platform build. Your task will be
-to setup the project and extend it with a feature in a specific way.
+that is an active dependency of our platform. Your task will be to
+setup the project and extend it with a feature in a specific way.
 
 This particular Django library allows us to handle guest visitors (and
 all the authorisation overhead that comes with that) in a straight-
@@ -45,21 +43,20 @@ The over-arching goal is to enhance the library such that each visitor
 link can be used a maximum number of times _with the maximum uses allowed
 per visitor being set when the visitor is first created_.
 
-You are free to implement this however you like but at minimum you
-will need:
+You are free to implement this however you like.
 
-1. a way to track the maximum number of visits allowed.
-1. a way to track the number of visits.
-1. a way to reject visits for visitors that have reached the limit.
+There are three main goals:
 
-A visitor link should always retain info about how many maximum uses were
-originally allowed.
+1. knowing how many uses are allowed _per_ token.
+1. knowing how many times each token has been used.
+1. the code should not allow uses above the maximum allowed.
+
 
 ### 👩‍💻 What is this test designed to showcase?
 
 * your ability to set up a Python project.
 * your capacity to take existing code and build on top of it.
-* how you would approach an everyday feature request.
+* your solution to this particular problem.
 * how you work as part of a normal code review process.
 * how your pull request explains the change to the team.
 
@@ -79,8 +76,8 @@ using your actual GitHub account.
 
 ### 🕰️ What will happen to my code after?
 
-* Your code & PR will be reviewed, and we may ask questions of it as you'd
-expect as part of a normal code review process.
+* Your code & PR will be reviewed, and we may ask questions of it come the
+interview as you'd expect as part of a normal code review process.
 
 * We discuss the code in the next stages of the interview pipeline.
 
@@ -284,7 +281,7 @@ To set up your local environment:
 
 1. Install Python 3.x ( see `tox.ini` for supported versions)
 
-1. Install Poetry.
+1. Install Poetry (at least version 1.7)
 
 1. Install the dependencies & working environment:
 
