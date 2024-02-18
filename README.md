@@ -1,3 +1,5 @@
+# 👋
+
 # 🥼 YunoJuno Candidate Test (django-visitor-pass)
 
 Hi!
