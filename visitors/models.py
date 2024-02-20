@@ -11,7 +11,11 @@ from django.http.request import HttpRequest
 from django.utils.timezone import now as tz_now
 from django.utils.translation import gettext_lazy as _lazy
 
-from .settings import VISITOR_QUERYSTRING_KEY, VISITOR_TOKEN_EXPIRY
+from .settings import (
+    VISITOR_QUERYSTRING_KEY,
+    VISITOR_TOKEN_DEFAULT_USAGE_LIMIT,
+    VISITOR_TOKEN_EXPIRY,
+)
 
 
 class InvalidVisitorPass(Exception):
@@ -52,7 +56,8 @@ class Visitor(models.Model):
         ),
     )
     max_uses = models.PositiveSmallIntegerField(
-        default=5, help_text=_lazy("Maximum allowed uses of the token.")
+        default=VISITOR_TOKEN_DEFAULT_USAGE_LIMIT,
+        help_text=_lazy("Maximum allowed uses of the token."),
     )
     uses = models.PositiveSmallIntegerField(default=0, editable=False)
 

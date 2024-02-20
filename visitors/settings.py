@@ -33,3 +33,8 @@ VISITOR_SESSION_EXPIRY: Optional[int] = _setting("VISITOR_SESSION_EXPIRY", 0)
 # is stashed in the session the visitor will remain a visitor until the session
 # expires. This value is used by the VisitorRequestMiddleware.
 VISITOR_TOKEN_EXPIRY: int = _setting("VISITOR_TOKEN_EXPIRY", 300)
+
+# Number of times that the visitor token can be used in a new session
+VISITOR_TOKEN_DEFAULT_USAGE_LIMIT: int = _setting(
+    "VISITOR_TOKEN_DEFAULT_USAGE_LIMIT", 5
+)
