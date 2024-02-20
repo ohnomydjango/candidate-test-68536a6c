@@ -151,6 +151,11 @@ class Visitor(models.Model):
         self.expires_at = tz_now() + self.DEFAULT_TOKEN_EXPIRY
         self.save()
 
+    def increment_usage(self) -> None:
+        """Increment the token's usage counter."""
+        self.uses += 1
+        self.save()
+
 
 class VisitorLogManager(models.Manager):
     def create_log(self, request: HttpRequest, status_code: int) -> VisitorLog:

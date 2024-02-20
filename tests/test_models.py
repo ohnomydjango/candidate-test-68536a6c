@@ -54,6 +54,15 @@ def test_reactivate():
     assert visitor.is_valid
 
 
+@pytest.mark.django_db
+def test_increment_usage():
+    visitor = Visitor.objects.create(email="foo@bar.com")
+    visitor.increment_usage()
+    assert visitor.uses == 1
+    visitor.refresh_from_db()
+    assert visitor.uses == 1
+
+
 @pytest.mark.parametrize(
     "is_active,expires_at,is_valid",
     (
