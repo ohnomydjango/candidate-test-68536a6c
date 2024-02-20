@@ -114,7 +114,7 @@ class Visitor(models.Model):
         if self.uses_remaining == 0:
             raise InvalidVisitorPass("Visitor pass has been used up")
         if self.uses_remaining < 0:
-            raise InvalidVisitorPass("Inconsistency! Pass exceeds max usage")
+            raise InvalidVisitorPass("Inconsistency: Pass exceeds max usage")
 
     def serialize(self) -> dict:
         """
