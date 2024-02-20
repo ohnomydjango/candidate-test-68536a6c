@@ -110,3 +110,20 @@ def test_has_expired(expires_at, has_expired):
     visitor = Visitor()
     visitor.expires_at = expires_at
     assert visitor.has_expired == has_expired
+
+
+@pytest.mark.parametrize(
+    "uses,max_uses",
+    (
+        (0, 5),
+        (5, 5),
+        (6, 5),
+    ),
+)
+def test_usage_validation(uses, max_uses):
+    visitor = Visitor(uses=uses, max_uses=max_uses)
+    if uses < max_uses:
+        visitor.validate()
+        return
+    with pytest.raises(InvalidVisitorPass):
+        visitor.validate()

@@ -104,11 +104,15 @@ class Visitor(models.Model):
         return self.max_uses - self.uses
 
     def validate(self) -> None:
-        """Raise InvalidVisitorPass if inactive or expired."""
+        """Raise InvalidVisitorPass if inactive, expired or used up."""
         if not self.is_active:
             raise InvalidVisitorPass("Visitor pass is inactive")
         if self.has_expired:
             raise InvalidVisitorPass("Visitor pass has expired")
+        if self.uses_remaining == 0:
+            raise InvalidVisitorPass("Visitor pass has been used up")
+        if self.uses_remaining < 0:
+            raise InvalidVisitorPass("Inconsistency! Pass exceeds max usage")
 
     def serialize(self) -> dict:
         """
