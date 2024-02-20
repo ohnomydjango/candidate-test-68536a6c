@@ -67,6 +67,21 @@ class TestVisitorRequestMiddleware(TestVisitorMiddlewareBase):
         assert request.user.is_visitor
         assert request.visitor == visitor
 
+    def test_token_incremented(self, visitor: Visitor) -> None:
+        request = self.request(visitor.tokenise("/"))
+        middleware = VisitorRequestMiddleware(lambda r: r)
+        middleware(request)
+        assert request.visitor.uses == 1
+
+    def test_token_rejected_at_max_uses(self, visitor: Visitor) -> None:
+        """Use default max_uses of 5, then check it's rejected."""
+        request = self.request(visitor.tokenise("/"))
+        middleware = VisitorRequestMiddleware(lambda r: r)
+        for i in range(6):
+            middleware(request)
+        assert not request.user.is_visitor
+        assert not request.visitor
+
 
 @pytest.mark.django_db
 class TestVisitorSessionMiddleware(TestVisitorMiddlewareBase):

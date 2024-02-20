@@ -39,6 +39,7 @@ class VisitorRequestMiddleware:
         else:
             request.visitor = visitor
             request.user.is_visitor = True
+            visitor.increment_usage()
         return self.get_response(request)
 
 
