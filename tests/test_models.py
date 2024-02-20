@@ -134,5 +134,11 @@ def test_usage_validation(uses, max_uses):
     if uses < max_uses:
         visitor.validate()
         return
-    with pytest.raises(InvalidVisitorPass):
-        visitor.validate()
+    if uses == max_uses:
+        with pytest.raises(InvalidVisitorPass) as excinfo:
+            visitor.validate()
+            assert "Visitor pass has been used up" in excinfo
+    if uses > max_uses:
+        with pytest.raises(InvalidVisitorPass) as excinfo:
+            visitor.validate()
+            assert "Inconsistency: Pass exceeds max usage" in excinfo
