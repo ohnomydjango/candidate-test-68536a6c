@@ -153,8 +153,8 @@ class Visitor(models.Model):
 
     def increment_usage(self) -> None:
         """Increment the token's usage counter."""
-        self.uses += 1
-        self.save()
+        Visitor.objects.filter(pk=self.pk).update(uses=models.F("uses") + 1)
+        self.refresh_from_db()
 
 
 class VisitorLogManager(models.Manager):
