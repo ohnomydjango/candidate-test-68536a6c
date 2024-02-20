@@ -94,6 +94,8 @@ def test_defaults():
     visitor = Visitor()
     assert visitor.created_at
     assert visitor.expires_at == visitor.created_at + Visitor.DEFAULT_TOKEN_EXPIRY
+    assert visitor.uses == 0
+    assert visitor.max_uses == 5
 
 
 @pytest.mark.parametrize(

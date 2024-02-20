@@ -51,13 +51,21 @@ class Visitor(models.Model):
             "Set to False to disable the visitor link and prevent further access."
         ),
     )
+    max_uses = models.PositiveSmallIntegerField(
+        default=5, help_text=_lazy("Maximum allowed uses of the token.")
+    )
+    uses = models.PositiveSmallIntegerField(default=0, editable=False)
 
     class Meta:
         verbose_name = "Visitor pass"
         verbose_name_plural = "Visitor passes"
 
     def __str__(self) -> str:
-        return f"Visitor pass for {self.email} ({self.scope})"
+        return (
+            f"Visitor pass for {self.email} "
+            f"({self.scope}) "
+            f"({self.uses_remaining} uses remaining)"
+        )
 
     def __repr__(self) -> str:
         return (
@@ -89,6 +97,11 @@ class Visitor(models.Model):
     def is_valid(self) -> bool:
         """Return True if the token is active and not yet expired."""
         return self.is_active and not self.has_expired
+
+    @property
+    def uses_remaining(self) -> int:
+        """Return the amount of times token can be used again."""
+        return self.max_uses - self.uses
 
     def validate(self) -> None:
         """Raise InvalidVisitorPass if inactive or expired."""
