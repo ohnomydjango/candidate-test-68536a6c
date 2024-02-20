@@ -150,6 +150,7 @@ his dance partner.
    Email: ginger@[...].com
    Message: ...
    Scope: REFERENCE_REQUEST [hidden field]
+   Usage limit: 5 uses
 ```
 
 2. We save this information, and generate a unique link which we send to Ginger,
@@ -159,15 +160,19 @@ his dance partner.
    we know about - a "visitor" - but who is in all other respects an
    `AnonymousUser`.
 
-4. We stash the visitor info in the standard session object - so that even
+4. Ginger's usage counter is incremented by one. If they've hit their usage of 
+   the token, they would be encounter a 403 Forbidden. But they haven't, so we 
+   continue.
+
+5. We stash the visitor info in the standard session object - so that even
    though Ginger is not authenticated, we know who she is, and more importantly
    we know why she's here (REFERENCE_REQUEST).
 
-5. Ginger submits the reference - which may be a multi-step process, involving
+6. Ginger submits the reference - which may be a multi-step process, involving
    GETs and POSTs, all of which are guarded by a decorator that restricts access
    to visitors with the appropriate Scope (just like `django-request-token`).
 
-6. At the final step we can (optionally) choose to clear the session info
+7. At the final step we can (optionally) choose to clear the session info
    immediately, effectively removing all further access.
 
 ### Implementation
@@ -190,9 +195,9 @@ This is done via two bits of middleware, `VisitorRequestMiddleware` and
 
 This middleware looks for a visitor token (uuid) on the incoming request
 querystring. If it finds a token, it will look up the `Visitor` object, add it
-to the request, and then set the `request.user.is_visitor` attribute. It sets
-the properties from the request, and has no interaction with the session. This
-happens in the second piece of middleware.
+to the request, and then set the `request.user.is_visitor` attribute. It then
+increments the usage counter. It sets the properties from the request, and has
+no interaction with the session. This happens in the second piece of middleware.
 
 #### `VisitorSessionMiddleware`
 
@@ -228,6 +233,9 @@ Instructions for third-party projects using this library:
 
 * `VISITOR_QUERYSTRING_KEY`: querystring param used on tokenised links (default:
   `vuid`)
+
+* `VISITOR_TOKEN_DEFAULT_USAGE_LIMIT`: integer representing the amount of times
+  a token can be used in a new session (default: 5)
 
 ### Usage
 
