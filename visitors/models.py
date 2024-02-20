@@ -70,7 +70,9 @@ class Visitor(models.Model):
     def __repr__(self) -> str:
         return (
             f"<Visitor id={self.id} uuid='{self.uuid}' "
-            f"email='{self.email}' scope='{self.scope}'>"
+            f"email='{self.email}' scope='{self.scope}' "
+            f"max_uses='{self.max_uses}'>"
+            f"uses_remaining='{self.uses_remaining}'"
         )
 
     def __init__(self, *args: Any, **kwargs: Any):
@@ -129,6 +131,7 @@ class Visitor(models.Model):
             "email": self.email,
             "scope": self.scope,
             "context": self.context,
+            "uses_remaining": self.uses_remaining,
         }
 
     def tokenise(self, url: str) -> str:
